@@ -1,7 +1,5 @@
-[gd_resource type="Terrain3DAssets" load_steps=12 format=3 uid="uid://br4kd5uvr4ajw"]
+[gd_resource type="Terrain3DAssets" load_steps=9 format=3 uid="uid://br4kd5uvr4ajw"]
 
-[ext_resource type="Texture2D" uid="uid://bafjon64jaixu" path="res://assets/textures/Snow006_4K-PNG/packed_albedo_height.png" id="1_ahg1m"]
-[ext_resource type="Texture2D" uid="uid://bgkno1xdao0u8" path="res://assets/textures/Snow006_4K-PNG/packed_normal_roughness.png" id="2_160xb"]
 [ext_resource type="Texture2D" uid="uid://b8bmnp1tn15s" path="res://assets/textures/Snow002_4K-PNG/packed_albedo_height.png" id="3_xc35o"]
 [ext_resource type="Texture2D" uid="uid://g675npv48p21" path="res://assets/textures/Snow002_4K-PNG/packed_normal_roughness.png" id="4_c6x8v"]
 [ext_resource type="Texture2D" uid="uid://dtgwrdbix1j54" path="res://assets/textures/Rock031_4K-PNG/packed_albedo_height.png" id="5_fgaaj"]
@@ -24,22 +22,16 @@ material_override = SubResource("StandardMaterial3D_loefk")
 generated_type = 1
 
 [sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_i6xi3"]
-name = "snow006"
-albedo_texture = ExtResource("1_ahg1m")
-normal_texture = ExtResource("2_160xb")
+name = "rock031"
+albedo_texture = ExtResource("5_fgaaj")
+normal_texture = ExtResource("6_xn2au")
 
-[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_gtuci"]
+[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_7ldwy"]
 name = "snow002"
 id = 1
 albedo_texture = ExtResource("3_xc35o")
 normal_texture = ExtResource("4_c6x8v")
 
-[sub_resource type="Terrain3DTextureAsset" id="Terrain3DTextureAsset_f84gu"]
-name = "packed_albedo_height"
-id = 2
-albedo_texture = ExtResource("5_fgaaj")
-normal_texture = ExtResource("6_xn2au")
-
 [resource]
 mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_s168r")])
-texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_i6xi3"), SubResource("Terrain3DTextureAsset_gtuci"), SubResource("Terrain3DTextureAsset_f84gu")])
+texture_list = Array[Terrain3DTextureAsset]([SubResource("Terrain3DTextureAsset_i6xi3"), SubResource("Terrain3DTextureAsset_7ldwy")])

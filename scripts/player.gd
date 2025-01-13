@@ -1,0 +1,51 @@
+extends CharacterBody3D
+
+@onready var camera: Camera3D = $Camera3D
+
+@export var walk_speed: float = 5.0;
+@export var run_speed: float = 8.0;
+@export var jump_velocity: float = 4.5;
+
+@export var sens_horizontal: float = 0.35;
+@export var sens_vertical: float = 0.5;
+
+@export var base_fov := 75.0;
+@export var run_fov_change := 1.5;
+
+var speed: float = walk_speed;
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
+		camera.rotate_x(deg_to_rad(-event.relative.y * sens_vertical))
+	
+	if event.is_action_pressed("ui_cancel") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	if event is InputEventMouseButton && Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+func _physics_process(delta: float) -> void:
+	# Add the gravity.
+	if not is_on_floor():
+		velocity += get_gravity() * delta
+
+	# Handle jump.
+	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+		velocity.y = jump_velocity
+
+	# Get the input direction and handle the movement/deceleration.
+	# As good practice, you should replace UI actions with custom gameplay actions.
+	var input_dir := Input.get_vector("left", "right", "forward", "backward")
+	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	if direction:
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
+	else:
+		velocity.x = move_toward(velocity.x, 0, speed)
+		velocity.z = move_toward(velocity.z, 0, speed)
+
+	move_and_slide()
