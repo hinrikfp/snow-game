@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0mgbjylkqrfm"]
+[gd_scene load_steps=17 format=3 uid="uid://d0mgbjylkqrfm"]
 
 [ext_resource type="Terrain3DMaterial" uid="uid://cbf5087uqjivh" path="res://terrain-data/material.tres" id="1_8jtcr"]
 [ext_resource type="Terrain3DAssets" uid="uid://br4kd5uvr4ajw" path="res://terrain-data/assets.tres" id="2_8h8r5"]
@@ -8,10 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://ddmke4aj32tv1" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Displacement.png" id="5_1w0m2"]
 [ext_resource type="Texture2D" uid="uid://b842q2lxnjq4e" path="res://height-map.exr" id="5_bwmfe"]
 [ext_resource type="Texture2D" uid="uid://bu4617t3j651j" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_NormalGL.png" id="6_enxrf"]
+[ext_resource type="Texture2D" uid="uid://yk7eayycquoy" path="res://path_map.exr" id="6_rxnsp"]
 [ext_resource type="Script" path="res://scenes/snow.gd" id="6_spgy7"]
 [ext_resource type="Texture2D" uid="uid://dfa0ywssa7ugo" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Roughness.png" id="7_eenat"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mqc2w"]
+sky_energy_multiplier = 1.5
 
 [sub_resource type="Sky" id="Sky_xtgw6"]
 sky_material = SubResource("ProceduralSkyMaterial_mqc2w")
@@ -22,8 +24,11 @@ background_energy_multiplier = 1.2
 sky = SubResource("Sky_xtgw6")
 ambient_light_source = 3
 ambient_light_color = Color(1, 1, 1, 1)
-ambient_light_energy = 0.0
+reflected_light_source = 2
 tonemap_mode = 2
+glow_enabled = true
+fog_sun_scatter = 0.1
+fog_density = 0.03
 volumetric_fog_density = 0.03
 volumetric_fog_emission = Color(0.255659, 0.255659, 0.255659, 1)
 
@@ -34,9 +39,10 @@ shader_parameter/height_scale = 1.0
 shader_parameter/offset_x = -2559.5
 shader_parameter/offset_z = -2559.5
 shader_parameter/offset_y = 0.5
+shader_parameter/path_scaler = 0.45
 shader_parameter/albedo = Color(0.933333, 1, 1, 1)
 shader_parameter/point_size = 1.0
-shader_parameter/roughness = 0.736
+shader_parameter/roughness = 0.762
 shader_parameter/metallic_texture_channel = null
 shader_parameter/specular = 1.0
 shader_parameter/metallic = 0.0
@@ -53,6 +59,7 @@ shader_parameter/uv1_offset = null
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = null
 shader_parameter/height_map = ExtResource("5_bwmfe")
+shader_parameter/path_map = ExtResource("6_rxnsp")
 shader_parameter/texture_albedo = ExtResource("4_oo3jd")
 shader_parameter/texture_roughness = ExtResource("7_eenat")
 shader_parameter/texture_normal = ExtResource("6_enxrf")
@@ -61,9 +68,9 @@ shader_parameter/texture_heightmap = ExtResource("5_1w0m2")
 [sub_resource type="PlaneMesh" id="PlaneMesh_um6ce"]
 material = SubResource("ShaderMaterial_6kx0s")
 custom_aabb = AABB(0, 0, 0, 1000, 1000, 1000)
-size = Vector2(250, 250)
-subdivide_width = 500
-subdivide_depth = 500
+size = Vector2(100, 100)
+subdivide_width = 1000
+subdivide_depth = 1000
 
 [node name="Game" type="Node3D"]
 

@@ -1,10 +1,13 @@
 shader_type spatial;
 
 uniform sampler2D height_map;
+uniform sampler2D path_map;
+
 uniform float height_scale = 1.0;
 uniform float offset_x = -2559.5;
 uniform float offset_z = -2559.5;
 uniform float offset_y = 0.5;
+uniform float path_scaler = 1.0;
 
 varying vec3 distortion;
 
@@ -53,6 +56,17 @@ void vertex() {
 	vec2 texture_pos = vec2((vertex_position.x + offset_x) / 5120.0, (vertex_position.z + offset_z) / 4608.0);
 	float height = texture(height_map, (texture_pos)).x - vertex_position.y;
 	
+	vec2 path_tex_coords = vec2((VERTEX.x / 100.0) + 0.5, (VERTEX.z / 100.0) + 0.5);
+	float path_offset = -texture(path_map, path_tex_coords).r;
+	if (path_offset != 0.0) {
+		height += path_offset * path_scaler;
+	}
+	
+	//float from_center = sqrt(pow(abs(VERTEX.x),2)+pow(abs(VERTEX.z),2));
+	//if (from_center <= 0.5) {
+		//height -= offset_y - from_center;
+	//}
+	
 	distortion = vec3(0,height * height_scale + offset_y ,0);
 	VERTEX.y += height * height_scale + offset_y;
 	
@@ -77,7 +91,7 @@ void fragment() {
     // Output the normal (visualize it)
     // ALBEDO = normal * 0.5 + 0.5; // Normalize to 0-1 range for visualization
 
-	vec2 base_uv = (100.0 + (UV * 2.0 - 1.0)) * 2.0;
+	vec2 base_uv = (100.0 + (UV * 2.0 - 1.0)) * 5.0;
 
 	{
 		// Height: Enabled
