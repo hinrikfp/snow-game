@@ -2,8 +2,8 @@ extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
 
-@export var walk_speed: float = 5.0;
-@export var run_speed: float = 8.0;
+@export var walk_speed: float = 4.0;
+@export var run_speed: float = 7.0;
 @export var jump_velocity: float = 4.5;
 
 @export var sens_horizontal: float = 0.35;
@@ -21,6 +21,7 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
 		camera.rotate_x(deg_to_rad(-event.relative.y * sens_vertical))
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90.0), deg_to_rad(60.0))
 	
 	if event.is_action_pressed("ui_cancel") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -40,8 +41,10 @@ func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_pressed("run"):
 		speed = run_speed
+		camera.fov = base_fov + run_fov_change
 	else:
 		speed = walk_speed
+		camera.fov = base_fov
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
