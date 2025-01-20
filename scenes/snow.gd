@@ -1,6 +1,6 @@
 extends MeshInstance3D
 
-@onready var player: CharacterBody3D = $"../Player"
+@onready var player: CharacterBody3D = $"../../Player"
 
 var shader_mat: ShaderMaterial;
 var path_map_texture: ImageTexture;
@@ -13,10 +13,11 @@ func _ready() -> void:
 	shader_mat = self.get_active_material(0)
 	shader_mat.set_shader_parameter("path_map", ImageTexture.create_from_image(path_image))
 	last_time = Time.get_ticks_msec()
+	print(path_image)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	path_map_texture = shader_mat.get_shader_parameter("path_map")
 	var player_relative_pos: Vector2 = Vector2(player.position.x - position.x, player.position.z - position.z)
 	var image_coord = Vector2i((player_relative_pos * 10.0).x + 500.0, (player_relative_pos * 10.0).y + 500.0)
@@ -29,9 +30,9 @@ func _process(delta: float) -> void:
 					if from_center <= brush_size:
 						var color: Color = Color(1.0 - (from_center/float(brush_size)), 0.0,0.0)
 						path_image.set_pixelv(image_coord + Vector2i(x,y), color)
-	if Time.get_ticks_msec() - last_time > 10.0:
-		path_map_texture.update(path_image)
-		last_time = Time.get_ticks_msec()
+		if Time.get_ticks_msec() - last_time > 10.0:
+			path_map_texture.update(path_image)
+			last_time = Time.get_ticks_msec()
 	if Input.is_key_pressed(KEY_F2):
 		path_image.save_exr("path_map.exr", false)
 	

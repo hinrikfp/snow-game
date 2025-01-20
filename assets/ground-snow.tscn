@@ -1,0 +1,57 @@
+[gd_scene load_steps=11 format=3 uid="uid://b8mdvv5hfupju"]
+
+[ext_resource type="Shader" path="res://shaders/ground-snow.gdshader" id="1_ort6q"]
+[ext_resource type="Texture2D" uid="uid://b842q2lxnjq4e" path="res://height-map.exr" id="2_srupa"]
+[ext_resource type="Texture2D" uid="uid://yk7eayycquoy" path="res://path_map.exr" id="3_aju1o"]
+[ext_resource type="Texture2D" uid="uid://y8g7yq5i48el" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Color.png" id="4_13bi8"]
+[ext_resource type="Texture2D" uid="uid://ddmke4aj32tv1" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Displacement.png" id="5_a7byp"]
+[ext_resource type="Texture2D" uid="uid://bu4617t3j651j" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_NormalGL.png" id="6_ww4kx"]
+[ext_resource type="Texture2D" uid="uid://dfa0ywssa7ugo" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Roughness.png" id="7_qaaxj"]
+[ext_resource type="Script" path="res://scenes/snow.gd" id="8_i4fe7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6kx0s"]
+render_priority = 0
+shader = ExtResource("1_ort6q")
+shader_parameter/height_scale = 1.0
+shader_parameter/offset_x = -2559.5
+shader_parameter/offset_z = -2559.5
+shader_parameter/offset_y = 0.5
+shader_parameter/path_scaler = 0.45
+shader_parameter/albedo = Color(0.972549, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.762
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 1.0
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/ao_texture_channel = null
+shader_parameter/ao_light_affect = 0.0
+shader_parameter/subsurface_scattering_strength = 0.2
+shader_parameter/heightmap_scale = 5.0
+shader_parameter/heightmap_min_layers = 8
+shader_parameter/heightmap_max_layers = 32
+shader_parameter/heightmap_flip = Vector2(1, 1)
+shader_parameter/uv1_scale = Vector3(0.5, 0.5, 1)
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = null
+shader_parameter/height_map = ExtResource("2_srupa")
+shader_parameter/path_map = ExtResource("3_aju1o")
+shader_parameter/texture_albedo = ExtResource("4_13bi8")
+shader_parameter/texture_roughness = ExtResource("7_qaaxj")
+shader_parameter/texture_normal = ExtResource("6_ww4kx")
+shader_parameter/texture_heightmap = ExtResource("5_a7byp")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_um6ce"]
+material = SubResource("ShaderMaterial_6kx0s")
+custom_aabb = AABB(0, 0, 0, 1000, 1000, 1000)
+size = Vector2(100, 100)
+subdivide_width = 1000
+subdivide_depth = 1000
+
+[node name="Snow" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.906169, 80.837, 6.8733)
+extra_cull_margin = 100.0
+gi_mode = 2
+mesh = SubResource("PlaneMesh_um6ce")
+script = ExtResource("8_i4fe7")

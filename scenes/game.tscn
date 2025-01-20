@@ -1,16 +1,15 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0mgbjylkqrfm"]
+[gd_scene load_steps=35 format=3 uid="uid://d0mgbjylkqrfm"]
 
 [ext_resource type="Terrain3DMaterial" uid="uid://cbf5087uqjivh" path="res://terrain-data/material.tres" id="1_8jtcr"]
 [ext_resource type="Terrain3DAssets" uid="uid://br4kd5uvr4ajw" path="res://terrain-data/assets.tres" id="2_8h8r5"]
 [ext_resource type="PackedScene" uid="uid://c1t4wwt4vmksg" path="res://scenes/player.tscn" id="3_331dj"]
-[ext_resource type="Shader" path="res://shaders/ground-snow.gdshader" id="4_edcym"]
-[ext_resource type="Texture2D" uid="uid://y8g7yq5i48el" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Color.png" id="4_oo3jd"]
-[ext_resource type="Texture2D" uid="uid://ddmke4aj32tv1" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Displacement.png" id="5_1w0m2"]
-[ext_resource type="Texture2D" uid="uid://b842q2lxnjq4e" path="res://height-map.exr" id="5_bwmfe"]
-[ext_resource type="Texture2D" uid="uid://bu4617t3j651j" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_NormalGL.png" id="6_enxrf"]
-[ext_resource type="Texture2D" uid="uid://yk7eayycquoy" path="res://path_map.exr" id="6_rxnsp"]
-[ext_resource type="Script" path="res://scenes/snow.gd" id="6_spgy7"]
-[ext_resource type="Texture2D" uid="uid://dfa0ywssa7ugo" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Roughness.png" id="7_eenat"]
+[ext_resource type="PackedScene" uid="uid://b8mdvv5hfupju" path="res://assets/ground-snow.tscn" id="4_gyk4j"]
+[ext_resource type="Script" path="res://scenes/fps-counter.gd" id="7_r358a"]
+[ext_resource type="PackedScene" uid="uid://dgc6s3h0atvd4" path="res://assets/fire.tscn" id="9_idm4c"]
+[ext_resource type="PackedScene" uid="uid://p5mx5rym51qi" path="res://assets/fireplace.tscn" id="10_4jsy5"]
+[ext_resource type="PackedScene" uid="uid://de6eqhvem7hi1" path="res://assets/radio-tower.glb" id="12_e8x2j"]
+[ext_resource type="PackedScene" uid="uid://wn3fhw66a5xm" path="res://assets/cabin.tscn" id="13_74600"]
+[ext_resource type="Shader" path="res://shaders/basic-shader.gdshader" id="16_s0urt"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mqc2w"]
 sky_energy_multiplier = 1.5
@@ -32,19 +31,208 @@ fog_density = 0.03
 volumetric_fog_density = 0.03
 volumetric_fog_emission = Color(0.255659, 0.255659, 0.255659, 1)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6kx0s"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cberg"]
+albedo_color = Color(1, 0, 0.113725, 1)
+emission_enabled = true
+emission = Color(1, 0, 0.113725, 1)
+emission_energy_multiplier = 16.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4dobo"]
+material = SubResource("StandardMaterial3D_cberg")
+radius = 0.4
+height = 1.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q5i8c"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Color.png-6e7105e3754c3bbfd39e9d643a3d8a1b.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_pr2k1"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Displacement.png-3c662de32a77becabceed44716c438e7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ltikh"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_NormalGL.png-61e573cea6dc77a26a0cad29e6e0a0b7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_bwc3y"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Roughness.png-c10c513c684cc4dfaac4b9088c09d45a.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vi5y8"]
+albedo_texture = SubResource("CompressedTexture2D_q5i8c")
+roughness_texture = SubResource("CompressedTexture2D_bwc3y")
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_ltikh")
+heightmap_enabled = true
+heightmap_deep_parallax = true
+heightmap_min_layers = 8
+heightmap_max_layers = 32
+heightmap_texture = SubResource("CompressedTexture2D_pr2k1")
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 0.2
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_6wb4u"]
+material = SubResource("StandardMaterial3D_vi5y8")
+size = Vector2(100, 100)
+
+[sub_resource type="Shader" id="Shader_th4tm"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.3.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_burley, specular_schlick_ggx;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform sampler2D texture_normal : hint_roughness_normal, filter_linear_mipmap, repeat_enable;
+uniform float normal_scale : hint_range(-16.0, 16.0);
+
+uniform float subsurface_scattering_strength : hint_range(0.0, 1.0, 0.01);
+uniform sampler2D texture_subsurface_scattering : hint_default_white, filter_linear_mipmap, repeat_enable;
+
+uniform sampler2D texture_heightmap : hint_default_black, filter_linear_mipmap, repeat_enable;
+uniform float heightmap_scale : hint_range(-16.0, 16.0, 0.001);
+uniform int heightmap_min_layers : hint_range(1, 64);
+uniform int heightmap_max_layers : hint_range(1, 64);
+uniform vec2 heightmap_flip;
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+}
+
+void fragment() {
+	vec3 pos = VERTEX;
+    vec3 dx = dFdx(pos);
+    vec3 dy = dFdy(pos);
+	
+	vec3 tangent = normalize(dx); // Assumes primary variation along x
+    vec3 binormal = normalize(dy); // Assumes primary variation along z
+    vec3 normal = normalize(cross(binormal, tangent)); // Normal from tangent and binormal
+	NORMAL = normal;
+	
+	vec2 base_uv = UV;
+
+	{
+		// Height: Enabled
+		vec3 view_dir = normalize(normalize(-VERTEX + EYE_OFFSET) * mat3(TANGENT * heightmap_flip.x, -BINORMAL * heightmap_flip.y, NORMAL));
+
+		// Height Deep Parallax: Enabled
+		float num_layers = mix(float(heightmap_max_layers), float(heightmap_min_layers), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
+		float layer_depth = 1.0 / num_layers;
+		float current_layer_depth = 0.0;
+		vec2 p = view_dir.xy * heightmap_scale * 0.01;
+		vec2 delta = p / num_layers;
+		vec2 ofs = base_uv;
+		float depth = 1.0 - texture(texture_heightmap, ofs).r;
+
+		float current_depth = 0.0;
+		while (current_depth < depth) {
+			ofs -= delta;
+			depth = 1.0 - texture(texture_heightmap, ofs).r;
+
+			current_depth += layer_depth;
+		}
+
+		vec2 prev_ofs = ofs + delta;
+		float after_depth = depth - current_depth;
+		float before_depth = (1.0 - texture(texture_heightmap, prev_ofs).r) - current_depth + layer_depth;
+
+		float weight = after_depth / (after_depth - before_depth);
+		ofs = mix(ofs, prev_ofs, weight);
+		base_uv = ofs;
+	}
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+
+	// Normal Map: Enabled
+	NORMAL_MAP = texture(texture_normal, base_uv).rgb;
+	NORMAL_MAP_DEPTH = normal_scale;
+
+	// Subsurface Scattering: Enabled
+	float sss_tex = texture(texture_subsurface_scattering, base_uv).r;
+	SSS_STRENGTH = subsurface_scattering_strength * sss_tex;
+}
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_o56qt"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Color.png-6e7105e3754c3bbfd39e9d643a3d8a1b.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eqbvq"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Displacement.png-3c662de32a77becabceed44716c438e7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4hipp"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_NormalGL.png-61e573cea6dc77a26a0cad29e6e0a0b7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_7txfv"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Roughness.png-c10c513c684cc4dfaac4b9088c09d45a.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5y355"]
 render_priority = 0
-shader = ExtResource("4_edcym")
-shader_parameter/height_scale = 1.0
-shader_parameter/offset_x = -2559.5
-shader_parameter/offset_z = -2559.5
-shader_parameter/offset_y = 0.5
-shader_parameter/path_scaler = 0.45
-shader_parameter/albedo = Color(0.933333, 1, 1, 1)
+shader = SubResource("Shader_th4tm")
+shader_parameter/albedo = Color(1, 1, 1, 1)
 shader_parameter/point_size = 1.0
-shader_parameter/roughness = 0.762
+shader_parameter/roughness = 1.0
 shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 1.0
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/normal_scale = 1.0
+shader_parameter/subsurface_scattering_strength = 0.2
+shader_parameter/heightmap_scale = 5.0
+shader_parameter/heightmap_min_layers = 8
+shader_parameter/heightmap_max_layers = 32
+shader_parameter/heightmap_flip = Vector2(1, 1)
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = SubResource("CompressedTexture2D_o56qt")
+shader_parameter/texture_roughness = SubResource("CompressedTexture2D_7txfv")
+shader_parameter/texture_normal = SubResource("CompressedTexture2D_4hipp")
+shader_parameter/texture_heightmap = SubResource("CompressedTexture2D_eqbvq")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_mjed6"]
+material = SubResource("ShaderMaterial_5y355")
+size = Vector2(100, 100)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k2qif"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Color.png-6e7105e3754c3bbfd39e9d643a3d8a1b.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yymi1"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Displacement.png-3c662de32a77becabceed44716c438e7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4cqf7"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_NormalGL.png-61e573cea6dc77a26a0cad29e6e0a0b7.s3tc.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_srxw6"]
+load_path = "res://.godot/imported/Snow002_4K-PNG_Roughness.png-c10c513c684cc4dfaac4b9088c09d45a.s3tc.ctex"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvtam"]
+render_priority = 0
+shader = ExtResource("16_s0urt")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
 shader_parameter/metallic = 0.0
 shader_parameter/normal_scale = 1.0
 shader_parameter/ao_texture_channel = null
@@ -54,23 +242,18 @@ shader_parameter/heightmap_scale = 5.0
 shader_parameter/heightmap_min_layers = 8
 shader_parameter/heightmap_max_layers = 32
 shader_parameter/heightmap_flip = Vector2(1, 1)
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = null
+shader_parameter/uv1_scale = Vector3(5, 5, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = null
-shader_parameter/height_map = ExtResource("5_bwmfe")
-shader_parameter/path_map = ExtResource("6_rxnsp")
-shader_parameter/texture_albedo = ExtResource("4_oo3jd")
-shader_parameter/texture_roughness = ExtResource("7_eenat")
-shader_parameter/texture_normal = ExtResource("6_enxrf")
-shader_parameter/texture_heightmap = ExtResource("5_1w0m2")
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/texture_albedo = SubResource("CompressedTexture2D_k2qif")
+shader_parameter/texture_roughness = SubResource("CompressedTexture2D_srxw6")
+shader_parameter/texture_normal = SubResource("CompressedTexture2D_4cqf7")
+shader_parameter/texture_heightmap = SubResource("CompressedTexture2D_yymi1")
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_um6ce"]
-material = SubResource("ShaderMaterial_6kx0s")
-custom_aabb = AABB(0, 0, 0, 1000, 1000, 1000)
+[sub_resource type="PlaneMesh" id="PlaneMesh_x1lb4"]
+material = SubResource("ShaderMaterial_uvtam")
 size = Vector2(100, 100)
-subdivide_width = 1000
-subdivide_depth = 1000
 
 [node name="Game" type="Node3D"]
 
@@ -92,8 +275,66 @@ shadow_blur = 3.0
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ci7fr")
 
-[node name="Snow" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.906169, 80.837, 6.8733)
-extra_cull_margin = 2482.42
-mesh = SubResource("PlaneMesh_um6ce")
-script = ExtResource("6_spgy7")
+[node name="Snow-Tiles" type="Node3D" parent="."]
+
+[node name="Snow" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.926, 0)
+skeleton = NodePath("../..")
+
+[node name="Snow2" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 220.002, 100)
+skeleton = NodePath("../..")
+
+[node name="Snow3" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 220.002, 0)
+skeleton = NodePath("../..")
+
+[node name="Snow4" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 220.002, 100)
+skeleton = NodePath("../..")
+
+[node name="radio-tower" parent="." instance=ExtResource("12_e8x2j")]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, -86.8771, 209.925, 261.56)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="radio-tower"]
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.0999756, 263.047, -0.213257)
+mesh = SubResource("CapsuleMesh_4dobo")
+skeleton = NodePath("../..")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="radio-tower/MeshInstance3D"]
+light_color = Color(1, 0, 0.054902, 1)
+light_energy = 16.0
+light_indirect_energy = 3.968
+light_volumetric_fog_energy = 16.0
+
+[node name="cabin" parent="." instance=ExtResource("13_74600")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 126.719, 145.058, -3.93899)
+
+[node name="fps" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("7_r358a")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -758.837, 0.926151, -1284.89)
+mesh = SubResource("PlaneMesh_6wb4u")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -758.837, 0.926151, -1184.99)
+mesh = SubResource("PlaneMesh_mjed6")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -658.533, 0.926151, -1184.66)
+mesh = SubResource("PlaneMesh_x1lb4")
+
+[node name="Fireplace" parent="." instance=ExtResource("10_4jsy5")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 124.212, 145.245, -3.50552)
+
+[node name="Fire" parent="Fireplace" instance=ExtResource("9_idm4c")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 0.427901, 0, 1, 0, -4.37114e-08, -0.0278254, 0.00167847, -0.302048)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Fireplace/Fire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.416756, 1.47363, 0)
+light_color = Color(1, 0.611765, 0.337255, 1)
+light_energy = 3.0
+shadow_enabled = true

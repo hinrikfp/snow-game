@@ -1,0 +1,38 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://b5rroe1sd85pb"
+path.s3tc="res://.godot/imported/fireplace_worn_corrugated_iron_diff_4k.png-e1243d773fce9544d775fe3a022864e8.s3tc.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "657b67bae197ca4d9f46b304dbda548f"
+}
+
+[deps]
+
+source_file="res://assets/models/fireplace/fireplace_worn_corrugated_iron_diff_4k.png"
+dest_files=["res://.godot/imported/fireplace_worn_corrugated_iron_diff_4k.png-e1243d773fce9544d775fe3a022864e8.s3tc.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

@@ -11,6 +11,5 @@ assets = ExtResource("2_mvbc8")
 mesh_lods = 8
 top_level = true
 script = ExtResource("1_60b8f")
-map_type = 2
-file_name_out = "color_map.png"
+file_name_out = "height-map.exr"
 metadata/_edit_lock_ = true

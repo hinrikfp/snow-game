@@ -46,13 +46,9 @@ uniform vec3 uv1_offset;
 uniform vec3 uv2_scale;
 uniform vec3 uv2_offset;
 
-const vec2 size = vec2(2.0,0.0);
-const vec3 off = vec3(-1.0,0.0,1.0);
-
 void vertex() {
 	// Called for every vertex the material is visible on.
-	vec3 world_position = NODE_POSITION_WORLD;
-	vec3 vertex_position = world_position + VERTEX;
+	vec3 vertex_position = NODE_POSITION_WORLD + VERTEX;
 	vec2 texture_pos = vec2((vertex_position.x + offset_x) / 5120.0, (vertex_position.z + offset_z) / 4608.0);
 	float height = texture(height_map, (texture_pos)).x - vertex_position.y;
 	
@@ -61,11 +57,6 @@ void vertex() {
 	if (path_offset != 0.0) {
 		height += path_offset * path_scaler;
 	}
-	
-	//float from_center = sqrt(pow(abs(VERTEX.x),2)+pow(abs(VERTEX.z),2));
-	//if (from_center <= 0.5) {
-		//height -= offset_y - from_center;
-	//}
 	
 	distortion = vec3(0,height * height_scale + offset_y ,0);
 	VERTEX.y += height * height_scale + offset_y;
@@ -96,8 +87,30 @@ void fragment() {
 	{
 		// Height: Enabled
 		vec3 view_dir = normalize(normalize(-VERTEX + EYE_OFFSET) * mat3(TANGENT * heightmap_flip.x, -BINORMAL * heightmap_flip.y, NORMAL));
-		float depth = 1.0 - texture(texture_heightmap, base_uv).r;
-		vec2 ofs = base_uv - view_dir.xy * depth * heightmap_scale * 0.01;
+
+		// Height Deep Parallax: Enabled
+		float num_layers = mix(float(heightmap_max_layers), float(heightmap_min_layers), abs(dot(vec3(0.0, 0.0, 1.0), view_dir)));
+		float layer_depth = 1.0 / num_layers;
+		float current_layer_depth = 0.0;
+		vec2 p = view_dir.xy * heightmap_scale * 0.01;
+		vec2 delta = p / num_layers;
+		vec2 ofs = base_uv;
+		float depth = 1.0 - texture(texture_heightmap, ofs).r;
+
+		float current_depth = 0.0;
+		while (current_depth < depth) {
+			ofs -= delta;
+			depth = 1.0 - texture(texture_heightmap, ofs).r;
+
+			current_depth += layer_depth;
+		}
+
+		vec2 prev_ofs = ofs + delta;
+		float after_depth = depth - current_depth;
+		float before_depth = (1.0 - texture(texture_heightmap, prev_ofs).r) - current_depth + layer_depth;
+
+		float weight = after_depth / (after_depth - before_depth);
+		ofs = mix(ofs, prev_ofs, weight);
 		base_uv = ofs;
 	}
 
@@ -115,10 +128,6 @@ void fragment() {
 	// Normal Map: Enabled
 	NORMAL_MAP = texture(texture_normal, base_uv).rgb;
 	NORMAL_MAP_DEPTH = normal_scale;
-
-	// Ambient Occlusion: Enabled
-	AO = dot(texture(texture_ambient_occlusion, base_uv), ao_texture_channel);
-	AO_LIGHT_AFFECT = ao_light_affect;
 
 	// Subsurface Scattering: Enabled
 	float sss_tex = texture(texture_subsurface_scattering, base_uv).r;
