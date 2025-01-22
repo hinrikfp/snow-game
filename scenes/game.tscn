@@ -113,12 +113,12 @@ void fragment() {
 	vec3 pos = VERTEX;
     vec3 dx = dFdx(pos);
     vec3 dy = dFdy(pos);
-	
+
 	vec3 tangent = normalize(dx); // Assumes primary variation along x
     vec3 binormal = normalize(dy); // Assumes primary variation along z
     vec3 normal = normalize(cross(binormal, tangent)); // Normal from tangent and binormal
 	NORMAL = normal;
-	
+
 	vec2 base_uv = UV;
 
 	{
@@ -307,7 +307,7 @@ light_indirect_energy = 3.968
 light_volumetric_fog_energy = 16.0
 
 [node name="cabin" parent="." instance=ExtResource("13_74600")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 126.719, 145.058, -3.93899)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 126.59, 145.081, -4.0697)
 
 [node name="fps" type="Label" parent="."]
 offset_right = 40.0

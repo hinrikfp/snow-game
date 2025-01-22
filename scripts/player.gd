@@ -2,6 +2,14 @@ extends CharacterBody3D
 
 @onready var camera: Camera3D = $Camera3D
 
+# RayCasts
+@onready var ray_cast_camera: RayCast3D = $"Camera3D/RayCast-Camera"
+@onready var ray_cast_down_back: RayCast3D = $"RayCast-Down-Back"
+@onready var ray_cast_down_front: RayCast3D = $"RayCast-Down-Front"
+@onready var ray_cast_front_bottom: RayCast3D = $"RayCast-Front-Bottom"
+@onready var ray_cast_front_top: RayCast3D = $"RayCast-Front-Top"
+
+
 @export var walk_speed: float = 4.0;
 @export var run_speed: float = 7.0;
 @export var jump_velocity: float = 4.5;
@@ -13,6 +21,15 @@ extends CharacterBody3D
 @export var run_fov_change := 1.5;
 
 var speed: float = walk_speed;
+
+func can_climb() -> bool:
+	if !ray_cast_front_top.is_colliding() || !ray_cast_front_bottom.is_colliding():
+		return false;
+	var top_dist = ray_cast_front_top.global_transform.origin.distance_to(ray_cast_front_top.get_collision_point())
+	var bottom_dist = ray_cast_front_bottom.global_transform.origin.distance_to(ray_cast_front_bottom.get_collision_point())
+	if top_dist < 1.5 && bottom_dist < 1.5:
+		return true
+	return false
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;

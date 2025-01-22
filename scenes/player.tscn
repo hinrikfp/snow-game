@@ -9,13 +9,31 @@ radius = 0.3
 radius = 0.3
 
 [node name="Player" type="CharacterBody3D"]
+collision_layer = 2
 script = ExtResource("1_q22g0")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.673527, 0)
+
+[node name="RayCast-Camera" type="RayCast3D" parent="Camera3D"]
+target_position = Vector3(0, 0, -3)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("CapsuleShape3D_p3qwa")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_c21y7")
+
+[node name="RayCast-Down-Back" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, 0.3)
+
+[node name="RayCast-Down-Front" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, -0.3)
+
+[node name="RayCast-Front-Bottom" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, -0.3)
+target_position = Vector3(0, 0, -2)
+
+[node name="RayCast-Front-Top" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.710617, -0.3)
+target_position = Vector3(0, 0, -2)
