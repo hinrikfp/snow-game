@@ -24,12 +24,26 @@ var speed: float = walk_speed;
 
 func can_climb() -> bool:
 	if !ray_cast_front_top.is_colliding() || !ray_cast_front_bottom.is_colliding():
-		return false;
+		return false
 	var top_dist = ray_cast_front_top.global_transform.origin.distance_to(ray_cast_front_top.get_collision_point())
 	var bottom_dist = ray_cast_front_bottom.global_transform.origin.distance_to(ray_cast_front_bottom.get_collision_point())
 	if top_dist < 1.5 && bottom_dist < 1.5:
 		return true
 	return false
+
+func climb_slope() -> float:
+	if !ray_cast_front_top.is_colliding() || !ray_cast_front_bottom.is_colliding():
+		return 0.0
+	var top_dist = ray_cast_front_top.global_transform.origin.distance_to(ray_cast_front_top.get_collision_point())
+	var bottom_dist = ray_cast_front_bottom.global_transform.origin.distance_to(ray_cast_front_bottom.get_collision_point())
+	var top_to_bottom = ray_cast_front_top.global_transform.origin.y - ray_cast_front_bottom.global_transform.origin.y
+	var dist_diff = abs(top_dist - bottom_dist)
+	var angle = 90 - rad_to_deg(atan(dist_diff / top_to_bottom))
+	if top_dist < bottom_dist:
+		angle = -angle
+	return angle
+	
+
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
@@ -75,3 +89,4 @@ func _physics_process(delta: float) -> void:
 		velocity.z = move_toward(velocity.z, 0, speed)
 
 	move_and_slide()
+	print(climb_slope())

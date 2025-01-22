@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu25hcr7vmbte"]
+
+[ext_resource type="Shader" path="res://shaders/wire.gdshader" id="1_313lw"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l3m2d"]
+render_priority = 0
+shader = ExtResource("1_313lw")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_jcmy0"]
+material = SubResource("ShaderMaterial_l3m2d")
+size = Vector2(10, 0.5)
+subdivide_width = 100
+subdivide_depth = 100
+
+[node name="Wire" type="MeshInstance3D"]
+mesh = SubResource("PlaneMesh_jcmy0")
