@@ -26,9 +26,11 @@ mesh = SubResource("CapsuleMesh_c21y7")
 
 [node name="RayCast-Down-Back" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, 0.3)
+target_position = Vector3(0, -2, 0)
 
 [node name="RayCast-Down-Front" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, -0.3)
+target_position = Vector3(0, -2, 0)
 
 [node name="RayCast-Front-Bottom" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.70702, -0.3)
