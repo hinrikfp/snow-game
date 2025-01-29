@@ -1,7 +1,12 @@
 shader_type spatial;
+uniform float a = 1;
+uniform float b = 1;
+uniform float c = 1;
+uniform float d = 1;
 
 void vertex() {
-	VERTEX.y += sin(VERTEX.x / 3.0 - 1.0);
+	float x = VERTEX.x;
+	VERTEX.y += a * pow(x/d, 2) + b * x + c;
 }
 
 void fragment() {
