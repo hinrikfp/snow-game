@@ -8,11 +8,13 @@ extends CharacterBody3D
 @onready var ray_cast_down_front: RayCast3D = $"RayCast-Down-Front"
 @onready var ray_cast_front_bottom: RayCast3D = $"RayCast-Front-Bottom"
 @onready var ray_cast_front_top: RayCast3D = $"RayCast-Front-Top"
+@onready var health_label: RichTextLabel = $"../HealthLabel"
 
 
 @export var walk_speed: float = 4.0;
 @export var run_speed: float = 7.0;
 @export var jump_velocity: float = 4.5;
+@export var min_climb_angle: float = 45.0;
 
 @export var sens_horizontal: float = 0.35;
 @export var sens_vertical: float = 0.5;
@@ -20,7 +22,15 @@ extends CharacterBody3D
 @export var base_fov := 75.0;
 @export var run_fov_change := 1.5;
 
+@export var max_health: int = 100;
+
+var health: int;
+
+var inventory: Dictionary;
+
 var speed: float = walk_speed;
+
+var is_in_warmth: bool = false;
 
 enum PlayerMovement {
 	Idle,
@@ -33,6 +43,62 @@ enum PlayerMovement {
 }
 
 var player_movement := PlayerMovement.Idle
+
+# callbacks
+
+func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
+	health = max_health
+	health_label.text = str(health)
+	inventory = {
+		"wood": 0,
+		"radio_parts": 0,
+		"generator_parts": 0,
+	}
+
+func _input(event: InputEvent) -> void: #{
+	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
+		camera.rotate_x(deg_to_rad(-event.relative.y * sens_vertical))
+		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90.0), deg_to_rad(60.0))
+	
+	if event.is_action_pressed("ui_cancel") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	if event is InputEventMouseButton && Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	
+	if event.is_action_pressed("climb") && climb_slope() > min_climb_angle:
+		player_movement = PlayerMovement.Climbing
+		velocity = Vector3.ZERO
+	
+	if event.is_action_pressed("interact"):
+		process_interact()
+#}
+
+func _physics_process(delta: float) -> void: #{
+	if player_movement == PlayerMovement.Climbing:
+		if climb_slope() <= min_climb_angle:
+			player_movement = PlayerMovement.Idle
+		else:
+			process_climbing(delta)
+	else:
+		process_movement(delta)
+#}
+
+# signals
+
+func _on_cabin_warmth_body_entered(body: Node3D) -> void:
+	if body == self:
+		is_in_warmth = true
+
+func _on_cabin_warmth_body_exited(body: Node3D) -> void:
+	if body == self:
+		is_in_warmth = false
+func _on_tree_got_wood(amount: int) -> void:
+	inventory["wood"] += 1
+
+# functions
 
 func can_climb() -> bool: #{
 	if !ray_cast_front_top.is_colliding() || !ray_cast_front_bottom.is_colliding():
@@ -56,7 +122,6 @@ func climb_slope() -> float: #{
 		angle = -angle
 	return angle
 #}
-
 
 func get_surface_rotation() -> Transform3D:
 	var up = Vector3.UP
@@ -124,35 +189,10 @@ func process_movement(delta: float) -> void: #{
 	move_and_slide()
 #}
 
-func _ready() -> void:
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
-
-
-func _input(event: InputEvent) -> void: #{
-	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		rotate_y(deg_to_rad(-event.relative.x * sens_horizontal))
-		camera.rotate_x(deg_to_rad(-event.relative.y * sens_vertical))
-		camera.rotation.x = clamp(camera.rotation.x, deg_to_rad(-90.0), deg_to_rad(60.0))
-	
-	if event.is_action_pressed("ui_cancel") && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	
-	if event is InputEventMouseButton && Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
-		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
-	if event.is_action_pressed("climb") && climb_slope() > 45:
-		player_movement = PlayerMovement.Climbing
-		velocity = Vector3.ZERO
-#}
-
-func _physics_process(delta: float) -> void: #{
-	if player_movement == PlayerMovement.Climbing:
-		if climb_slope() <= 45:
-			player_movement = PlayerMovement.Idle
-		else:
-			process_climbing(delta)
-	else:
-		process_movement(delta)
-	#print(climb_slope())
-	#print(player_movement)
-#}
+func process_interact() -> bool:
+	if ray_cast_camera.is_colliding():
+		var collider: Node = ray_cast_camera.get_collider()
+		if collider.is_in_group("interactable"):
+			collider.call("interact", self)
+			return true
+	return false

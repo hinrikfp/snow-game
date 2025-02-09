@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://by1wmbry2jxui"]
+
+[ext_resource type="PackedScene" uid="uid://bvd5kaiedd0ju" path="res://assets/models/pine-tree-1/pine-tree-2.glb" id="1_txc17"]
+
+[node name="pine-tree-2" instance=ExtResource("1_txc17")]
+
+[node name="leaves_003" parent="tree_003" index="0"]
+cast_shadow = 2
