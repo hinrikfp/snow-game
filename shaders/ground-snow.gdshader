@@ -59,7 +59,7 @@ void vertex() {
 	if (path_offset != 0.0) {
 		height += path_offset * path_scaler;
 	}
-	
+
 	if (abs(vertex_position.x) > folding_distance) {
 		height += (folding_distance - abs(vertex_position.x)) / 5.0;
 	}

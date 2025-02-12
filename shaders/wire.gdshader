@@ -1,12 +1,12 @@
 shader_type spatial;
+uniform vec2 point_a = vec2(-5.0,1.0);
+uniform vec2 point_b = vec2(5.0,1.0);
 uniform float a = 1;
-uniform float b = 1;
-uniform float c = 1;
-uniform float d = 1;
+
 
 void vertex() {
 	float x = VERTEX.x;
-	VERTEX.y += a * pow(x/d, 2) + b * x + c;
+	VERTEX.y += a * cosh(x/a);
 }
 
 void fragment() {

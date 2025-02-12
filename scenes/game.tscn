@@ -57,7 +57,7 @@ top_level = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="." instance=ExtResource("3_331dj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 133.598, 167.883, -24.4635)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 136.672, 147.077, -3.79751)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.943801, 0.330514, 0, -0.330514, 0.943801, 0, 0, 0)

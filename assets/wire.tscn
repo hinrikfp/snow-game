@@ -5,10 +5,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_l3m2d"]
 render_priority = 0
 shader = ExtResource("1_313lw")
-shader_parameter/a = 1.0
-shader_parameter/b = 0.0
-shader_parameter/c = 0.0
-shader_parameter/d = 10.0
+shader_parameter/point_a = Vector2(-5, 1)
+shader_parameter/point_b = Vector2(5, 1)
+shader_parameter/a = 4.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jcmy0"]
 material = SubResource("ShaderMaterial_l3m2d")
