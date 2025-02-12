@@ -176,3 +176,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 307, 94, 159)
 [connection signal="got_wood" from="Tree" to="Player" method="_on_tree_got_wood"]
 [connection signal="got_wood" from="Tree2" to="Player" method="_on_tree_got_wood"]
 [connection signal="got_wood" from="Tree3" to="Player" method="_on_tree_got_wood"]
+[connection signal="got_parts" from="Plane" to="Player" method="_on_plane_got_parts"]

@@ -1,6 +1,7 @@
 extends StaticBody3D
 
 signal generator_started()
+signal generator_stopped()
 
 @onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
 
@@ -19,9 +20,11 @@ func interact(player: Player) -> void:
 	elif generator_state == GeneratorState.Fixed:
 		audio_stream_player_3d.play(0)
 		generator_state = GeneratorState.Running
+		emit_signal("generator_started")
 	elif generator_state == GeneratorState.Running:
 		audio_stream_player_3d.stream_paused = true
 		generator_state = GeneratorState.Fixed
+		emit_signal("generator_stopped")
 
 func get_generator_state() -> GeneratorState:
 	return self.generator_state

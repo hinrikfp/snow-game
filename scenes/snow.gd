@@ -17,7 +17,7 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	path_map_texture = shader_mat.get_shader_parameter("path_map")
 	var player_relative_pos: Vector2 = Vector2(player.position.x - position.x, player.position.z - position.z)
 	var image_coord = Vector2i((player_relative_pos * 10.0).x + 500.0, (player_relative_pos * 10.0).y + 500.0)
@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 					if from_center <= brush_size:
 						var color: Color = Color(1.0 - (from_center/float(brush_size)), 0.0,0.0)
 						path_image.set_pixelv(image_coord + Vector2i(x,y), color)
-		if Time.get_ticks_msec() - last_time > 500.0:
+		if Time.get_ticks_msec() - last_time > 250.0:
 			path_map_texture.update(path_image)
 			last_time = Time.get_ticks_msec()
 	if Input.is_key_pressed(KEY_F2):

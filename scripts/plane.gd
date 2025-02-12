@@ -1,4 +1,6 @@
 extends StaticBody3D
 
+signal got_parts()
+
 func interact(player: Player) -> void:
-	print("plane interaction")
+	emit_signal("got_parts")

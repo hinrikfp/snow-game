@@ -12,8 +12,8 @@ class_name Player
 @onready var health_label: RichTextLabel = $"../HealthLabel"
 
 
-@export var walk_speed: float = 4.0;
-@export var run_speed: float = 7.0;
+@export var walk_speed: float = 3.0;
+@export var run_speed: float = 6.0;
 @export var jump_velocity: float = 4.5;
 @export var min_climb_angle: float = 45.0;
 
@@ -98,6 +98,9 @@ func _on_cabin_warmth_body_exited(body: Node3D) -> void:
 func _on_tree_got_wood(amount: int) -> void:
 	inventory["wood"] += 1
 	print(inventory["wood"])
+	
+func _on_plane_got_parts() -> void:
+	inventory["parts"] += 1
 
 # functions
 
