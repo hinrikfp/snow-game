@@ -1,4 +1,5 @@
 extends CharacterBody3D
+class_name Player
 
 @onready var camera: Camera3D = $Camera3D
 
@@ -52,8 +53,7 @@ func _ready() -> void:
 	health_label.text = str(health)
 	inventory = {
 		"wood": 0,
-		"radio_parts": 0,
-		"generator_parts": 0,
+		"parts": 0,
 	}
 
 func _input(event: InputEvent) -> void: #{
@@ -97,6 +97,7 @@ func _on_cabin_warmth_body_exited(body: Node3D) -> void:
 		is_in_warmth = false
 func _on_tree_got_wood(amount: int) -> void:
 	inventory["wood"] += 1
+	print(inventory["wood"])
 
 # functions
 
@@ -196,3 +197,6 @@ func process_interact() -> bool:
 			collider.call("interact", self)
 			return true
 	return false
+
+func get_inventory() -> Dictionary:
+	return self.inventory
