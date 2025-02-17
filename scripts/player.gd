@@ -9,7 +9,7 @@ class_name Player
 @onready var ray_cast_down_front: RayCast3D = $"RayCast-Down-Front"
 @onready var ray_cast_front_bottom: RayCast3D = $"RayCast-Front-Bottom"
 @onready var ray_cast_front_top: RayCast3D = $"RayCast-Front-Top"
-@onready var health_label: RichTextLabel = $"../HealthLabel"
+@onready var ui: UI = $"../UI"
 
 
 @export var walk_speed: float = 3.0;
@@ -24,6 +24,14 @@ class_name Player
 @export var run_fov_change := 1.5;
 
 @export var max_health: int = 100;
+
+class Result:
+	var ok: bool
+	var result
+	func _init(ok_v: bool, result_v):
+		ok = ok_v
+		result = result_v
+		
 
 var health: int;
 
@@ -50,7 +58,7 @@ var player_movement := PlayerMovement.Idle
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
 	health = max_health
-	health_label.text = str(health)
+	ui.set_health_label(health)
 	inventory = {
 		"wood": 0,
 		"parts": 0,
@@ -84,6 +92,11 @@ func _physics_process(delta: float) -> void: #{
 			process_climbing(delta)
 	else:
 		process_movement(delta)
+	var focus = check_focus()
+	if focus.ok:
+		ui.set_interactable_label(focus.result)
+	else:
+		ui.set_interactable_label("")
 #}
 
 # signals
@@ -201,5 +214,18 @@ func process_interact() -> bool:
 			return true
 	return false
 
+func check_focus() -> Result:
+	if ray_cast_camera.is_colliding():
+		var collider: Node = ray_cast_camera.get_collider()
+		if collider.is_in_group("interactable") && collider.has_method("get_focus_message"):
+			var focus_message = collider.call("get_focus_message")
+			return Result.new(true, focus_message)
+	return Result.new(false, "")
+
 func get_inventory() -> Dictionary:
 	return self.inventory
+
+
+func change_health(amount: int) -> void:
+	self.health += amount
+	ui.set_health_label(health)

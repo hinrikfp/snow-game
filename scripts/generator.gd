@@ -31,3 +31,13 @@ func interact(player: Player) -> void:
 
 func get_generator_state() -> GeneratorState:
 	return self.generator_state
+
+func get_focus_message() -> String:
+	match generator_state:
+		GeneratorState.Broken:
+			return "use parts to fix the generator"
+		GeneratorState.Fixed:
+			return "turn on generator"
+		GeneratorState.Running:
+			return "turn off generator"
+	return "generator"

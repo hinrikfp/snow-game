@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://d0mgbjylkqrfm"]
+[gd_scene load_steps=23 format=3 uid="uid://d0mgbjylkqrfm"]
 
 [ext_resource type="Terrain3DMaterial" uid="uid://cbf5087uqjivh" path="res://terrain-data/material.tres" id="1_8jtcr"]
 [ext_resource type="Terrain3DAssets" uid="uid://br4kd5uvr4ajw" path="res://terrain-data/assets.tres" id="2_8h8r5"]
 [ext_resource type="PackedScene" uid="uid://c1t4wwt4vmksg" path="res://scenes/player.tscn" id="3_331dj"]
+[ext_resource type="PackedScene" uid="uid://ciuxq2lyx12oy" path="res://assets/ui.tscn" id="4_6brsu"]
 [ext_resource type="PackedScene" uid="uid://b8mdvv5hfupju" path="res://assets/ground-snow.tscn" id="4_gyk4j"]
 [ext_resource type="Script" path="res://scenes/fps-counter.gd" id="7_r358a"]
 [ext_resource type="PackedScene" uid="uid://dgc6s3h0atvd4" path="res://assets/fire.tscn" id="9_idm4c"]
@@ -51,6 +52,8 @@ size = Vector3(6.98975, 4.34863, 6.81238)
 
 [node name="Game" type="Node3D"]
 
+[node name="UI" parent="." instance=ExtResource("4_6brsu")]
+
 [node name="Terrain3D" type="Terrain3D" parent="."]
 data_directory = "res://terrain-data"
 material = ExtResource("1_8jtcr")
@@ -70,6 +73,7 @@ shadow_blur = 3.0
 environment = SubResource("Environment_ci7fr")
 
 [node name="Snow-Tiles" type="Node3D" parent="."]
+visible = false
 
 [node name="Snow" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.926, 0)
@@ -161,14 +165,6 @@ transform = Transform3D(-0.849672, 0, -0.527312, 0, 1, 0, 0.527312, 0, -0.849672
 
 [node name="Tree3" parent="." instance=ExtResource("11_lxrl5")]
 transform = Transform3D(-0.140055, 0, 0.990144, 0, 1, 0, -0.990144, 0, -0.140055, -121.758, 129.816, 371.029)
-
-[node name="HealthLabel" type="RichTextLabel" parent="."]
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_top = -40.0
-offset_right = 40.0
-grow_vertical = 0
 
 [node name="Plane" parent="." instance=ExtResource("13_j1mqs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 307, 94, 159)
