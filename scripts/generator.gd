@@ -3,7 +3,8 @@ extends StaticBody3D
 signal generator_started()
 signal generator_stopped()
 
-@onready var audio_stream_player_3d: AudioStreamPlayer3D = $AudioStreamPlayer3D
+@onready var active_sound: AudioStreamPlayer3D = $ActiveSound
+@onready var failure_sound: AudioStreamPlayer3D = $FailureSound
 
 enum GeneratorState {
 	Broken,
@@ -17,12 +18,14 @@ func interact(player: Player) -> void:
 	if generator_state == GeneratorState.Broken:
 		if player.inventory.get("parts") >= 1:
 			generator_state = GeneratorState.Fixed
+		else:
+			failure_sound.play()
 	elif generator_state == GeneratorState.Fixed:
-		audio_stream_player_3d.play(0)
+		active_sound.play(0)
 		generator_state = GeneratorState.Running
 		emit_signal("generator_started")
 	elif generator_state == GeneratorState.Running:
-		audio_stream_player_3d.stream_paused = true
+		active_sound.stream_paused = true
 		generator_state = GeneratorState.Fixed
 		emit_signal("generator_stopped")
 

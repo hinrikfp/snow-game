@@ -1,0 +1,189 @@
+{
+    "asset": {
+        "generator": "Khronos glTF Blender I/O v3.6.27",
+        "version": "2.0"
+    },
+    "scene": 0,
+    "scenes": [
+        {
+            "name": "Scene",
+            "nodes": [
+                0
+            ]
+        }
+    ],
+    "nodes": [
+        {
+            "mesh": 0,
+            "name": "veigfjmaw_LOD0_TIER2_000",
+            "rotation": [
+                0.7071068286895752,
+                0,
+                0,
+                0.7071068286895752
+            ],
+            "scale": [
+                0.009999999776482582,
+                0.009999999776482582,
+                0.009999999776482582
+            ]
+        }
+    ],
+    "materials": [
+        {
+            "doubleSided": true,
+            "name": "MI_veigfjmaw",
+            "normalTexture": {
+                "index": 0
+            },
+            "occlusionTexture": {
+                "index": 1
+            },
+            "pbrMetallicRoughness": {
+                "baseColorTexture": {
+                    "index": 2
+                },
+                "metallicRoughnessTexture": {
+                    "index": 1
+                }
+            }
+        }
+    ],
+    "meshes": [
+        {
+            "name": "S_veigfjmaw_tier_2",
+            "primitives": [
+                {
+                    "attributes": {
+                        "POSITION": 0,
+                        "NORMAL": 1,
+                        "TEXCOORD_0": 2,
+                        "TANGENT": 3
+                    },
+                    "indices": 4,
+                    "material": 0
+                }
+            ]
+        }
+    ],
+    "textures": [
+        {
+            "sampler": 0,
+            "source": 0
+        },
+        {
+            "sampler": 0,
+            "source": 1
+        },
+        {
+            "sampler": 0,
+            "source": 2
+        }
+    ],
+    "images": [
+        {
+            "mimeType": "image/png",
+            "name": "T_veigfjmaw_2K_N",
+            "uri": "Textures/T_veigfjmaw_2K_N.png"
+        },
+        {
+            "mimeType": "image/png",
+            "name": "T_veigfjmaw_2K_ORM",
+            "uri": "Textures/T_veigfjmaw_2K_ORM.png",
+            "extras": {
+                "compression": "mask"
+            }
+        },
+        {
+            "mimeType": "image/png",
+            "name": "T_veigfjmaw_2K_B",
+            "uri": "Textures/T_veigfjmaw_2K_B.png"
+        }
+    ],
+    "accessors": [
+        {
+            "bufferView": 0,
+            "componentType": 5126,
+            "count": 2572,
+            "max": [
+                46.96950912475586,
+                24.603429794311523,
+                0.6252222061157227
+            ],
+            "min": [
+                -45.77903366088867,
+                -28.018611907958984,
+                -64.322265625
+            ],
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 1,
+            "componentType": 5126,
+            "count": 2572,
+            "type": "VEC3"
+        },
+        {
+            "bufferView": 2,
+            "componentType": 5126,
+            "count": 2572,
+            "type": "VEC2"
+        },
+        {
+            "bufferView": 3,
+            "componentType": 5126,
+            "count": 2572,
+            "type": "VEC4"
+        },
+        {
+            "bufferView": 4,
+            "componentType": 5123,
+            "count": 10632,
+            "type": "SCALAR"
+        }
+    ],
+    "bufferViews": [
+        {
+            "buffer": 0,
+            "byteLength": 30864,
+            "byteOffset": 0,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 30864,
+            "byteOffset": 30864,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 20576,
+            "byteOffset": 61728,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 41152,
+            "byteOffset": 82304,
+            "target": 34962
+        },
+        {
+            "buffer": 0,
+            "byteLength": 21264,
+            "byteOffset": 123456,
+            "target": 34963
+        }
+    ],
+    "samplers": [
+        {
+            "magFilter": 9729,
+            "minFilter": 9987
+        }
+    ],
+    "buffers": [
+        {
+            "byteLength": 144720,
+            "uri": "veigfjmaw_tier_2.bin"
+        }
+    ]
+}

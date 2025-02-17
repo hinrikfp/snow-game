@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cbenia4obvmag"]
+[gd_scene load_steps=6 format=3 uid="uid://cbenia4obvmag"]
 
 [ext_resource type="PackedScene" uid="uid://bukredeada0ue" path="res://assets/models/generator/rusted_generator.glb" id="1_hwk8d"]
 [ext_resource type="Script" path="res://scripts/generator.gd" id="1_w0b4s"]
 [ext_resource type="AudioStream" uid="uid://m40yn8sa4vbv" path="res://assets/audio/lakewoodsound__backup-generator_trimmed.ogg" id="3_wx4pj"]
+[ext_resource type="AudioStream" uid="uid://erhfvtddq2oo" path="res://assets/audio/kinoton__car-engine-false-start-4x.ogg" id="4_1yb22"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_wr328"]
 size = Vector3(2.02637, 1.99573, 4.00806)
@@ -17,7 +18,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00140381, 0.00744629)
 shape = SubResource("BoxShape3D_wr328")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+[node name="ActiveSound" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_wx4pj")
 panning_strength = 0.35
 parameters/looping = true
+
+[node name="FailureSound" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_1yb22")
+volume_db = -1.0
+panning_strength = 0.35
