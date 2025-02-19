@@ -15,10 +15,6 @@ run/main_scene="res://scenes/game.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
-[autoload]
-
-GameManager="*res://scripts/game_manager.gd"
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-vim/plugin.cfg", "res://addons/terrain_3d/plugin.cfg")

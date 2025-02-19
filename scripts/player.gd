@@ -24,18 +24,23 @@ class_name Player
 @export var run_fov_change := 1.5;
 
 @export var max_health: int = 100;
+@export var max_stamina: float = 10;
 
 class Result:
-	var ok: bool
-	var result
+	var ok: bool;
+	var result;
 	func _init(ok_v: bool, result_v):
 		ok = ok_v
 		result = result_v
 		
 
 var health: int;
+var stamina: float;
 
-var inventory: Dictionary;
+@export var inventory: Dictionary = {
+	"wood": 0,
+	"parts": 0,
+};
 
 var speed: float = walk_speed;
 
@@ -51,18 +56,16 @@ enum PlayerMovement {
 	Climbing,
 }
 
-var player_movement := PlayerMovement.Idle
+var player_movement := PlayerMovement.Idle;
 
 # callbacks
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
 	health = max_health
+	stamina = max_stamina
 	ui.set_health_label(health)
-	inventory = {
-		"wood": 0,
-		"parts": 0,
-	}
+	
 
 func _input(event: InputEvent) -> void: #{
 	if event is InputEventMouseMotion && Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:

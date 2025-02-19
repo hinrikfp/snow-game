@@ -19,6 +19,7 @@ func interact(player: Player) -> void:
 	if generator_state == GeneratorState.Broken:
 		if player.inventory.get("parts") >= 1:
 			generator_state = GeneratorState.Fixed
+			player.inventory["parts"] -= 1
 		else:
 			failure_sound.play()
 	elif generator_state == GeneratorState.Fixed:

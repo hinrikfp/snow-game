@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://p5mx5rym51qi"]
+[gd_scene load_steps=16 format=3 uid="uid://p5mx5rym51qi"]
 
 [ext_resource type="PackedScene" uid="uid://c7lwv8qst0ax4" path="res://assets/models/fireplace/fireplace.glb" id="1_gfwl0"]
 [ext_resource type="Script" path="res://scripts/fireplace.gd" id="2_70i5k"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cfmtk1dkbk357" path="res://assets/models/fireplace/fireplace_worn_corrugated_iron_nor_gl_4k.png" id="3_jwpmn"]
 [ext_resource type="Texture2D" uid="uid://dh2rkhmaweyr7" path="res://assets/models/fireplace/fireplace_worn_corrugated_iron_rough_4k.png" id="4_ygvaf"]
 [ext_resource type="AudioStream" uid="uid://olac3agpouya" path="res://assets/audio/vital_sounds__fireplace-fire.ogg" id="5_vc2pm"]
+[ext_resource type="PackedScene" uid="uid://dgc6s3h0atvd4" path="res://assets/fire.tscn" id="6_pr4xy"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_0kqy8"]
 data = PackedVector3Array(1.5, 1.5, -1.5, -1.5, 1.5, 0.3988, -1.5, 1.5, -1.5, 1.5, 1.5, -1.5, 1.5, 1.5, 0.3988, -1.5, 1.5, 0.3988, -1.5, -1.5, -1.5, 1.5, 1.5, -1.5, -1.5, 1.5, -1.5, -1.5, -1.5, -1.5, 1.5, -1.5, -1.5, 1.5, 1.5, -1.5, -1.5, -1.5, -1.5, -1.5, 1.275, 0.5052, -1.5, -1.5, 0.5052, -1.5, 1.275, 0.5052, -1.5, 1.4857, 0.452, -1.5, 1.3784, 0.4963, -1.5, 1.4857, 0.452, -1.5, 1.5, -1.5, -1.5, 1.5, 0.3988, -1.5, 1.5, -1.5, -1.5, 1.275, 0.5052, -1.5, -1.5, -1.5, -1.5, 1.275, 0.5052, -1.5, 1.5, -1.5, -1.5, 1.4857, 0.452, -1.5, -1.5, -1.5, 1.5, -1.5, 0.5052, 1.5, -1.5, -1.5, -1.5, -1.5, -1.5, -1.5, -1.5, 0.5052, 1.5, -1.5, 0.5052, 1.5, -1.5, 0.5052, 1.5, 1.5, -1.5, 1.5, -1.5, -1.5, 1.5, 1.5, -1.5, 1.5, 1.4857, 0.452, 1.5, 1.5, 0.3988, 1.5, 1.4857, 0.452, 1.5, 1.275, 0.5052, 1.5, 1.3784, 0.4963, 1.5, 1.275, 0.5052, 1.5, 1.5, -1.5, 1.5, -1.5, 0.5052, 1.5, 1.5, -1.5, 1.5, 1.275, 0.5052, 1.5, 1.4857, 0.452, 1.5, 1.5, 0.3988, -1.5, 1.4857, 0.452, -1.5, 1.5, 0.3988, 1.5, 1.5, 0.3988, 1.5, 1.4857, 0.452, -1.5, 1.4857, 0.452, 1.5, 1.4857, 0.452, -1.5, 1.3784, 0.4963, -1.5, 1.4857, 0.452, 1.5, 1.4857, 0.452, 1.5, 1.3784, 0.4963, -1.5, 1.3784, 0.4963, 1.5, 1.3784, 0.4963, -1.5, 1.275, 0.5052, -1.5, 1.3784, 0.4963, 1.5, 1.3784, 0.4963, 1.5, 1.275, 0.5052, -1.5, 1.275, 0.5052, 1.5, -1.5, 0.5052, -1.5, 1.275, 0.5052, 1.5, 1.275, 0.5052, 1.5, -1.5, 0.5052, -1.5, -1.5, 0.5052, -1.5, 1.275, 0.5052)
@@ -87,7 +88,16 @@ cast_shadow = 2
 transform = Transform3D(0.114291, 0, 0, 0, 0.0390898, 0.107398, 0, -0.107398, 0.0390898, 0, 1.29097, -0.952498)
 shape = SubResource("ConcavePolygonShape3D_bnxn1")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="14"]
+[node name="Fire" parent="." index="14" instance=ExtResource("6_pr4xy")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0, 0, -0.351)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Fire" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00682388, 0.638455, 0.671242)
+light_color = Color(1, 0.611765, 0.337255, 1)
+light_energy = 3.0
+shadow_enabled = true
+
+[node name="FireNoise" type="AudioStreamPlayer3D" parent="." index="15"]
 transform = Transform3D(-0.999871, 0, 0.0160388, 0, 1, 0, -0.0160388, 0, -0.999871, 0.0054466, 0.424952, -0.339545)
 stream = ExtResource("5_vc2pm")
 volume_db = -2.0
