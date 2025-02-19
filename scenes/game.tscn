@@ -21,7 +21,7 @@
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mqc2w"]
 sky_energy_multiplier = 1.5
 sky_cover = ExtResource("5_wjmh8")
-sky_cover_modulate = Color(0.377919, 0.377919, 0.377919, 1)
+sky_cover_modulate = Color(0.47788, 0.47788, 0.47788, 1)
 ground_bottom_color = Color(0.336666, 0.329634, 0.344752, 1)
 
 [sub_resource type="Sky" id="Sky_xtgw6"]
@@ -62,7 +62,7 @@ metadata/_edit_lock_ = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 136.672, 147.077, -3.79751)
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-4.19758e-08, -0.692143, 0.72176, 1.21951e-08, 0.72176, 0.692143, -1, 3.78552e-08, -2.18557e-08, 0, 0, 0)
+transform = Transform3D(-4.37114e-08, -0.906308, 0.422618, 0, 0.422618, 0.906308, -1, 3.9616e-08, -1.84732e-08, 0, 0, 0)
 light_energy = 0.8
 shadow_enabled = true
 shadow_bias = 0.05
@@ -73,7 +73,6 @@ environment = SubResource("Environment_ci7fr")
 camera_attributes = SubResource("CameraAttributesPractical_0848m")
 
 [node name="Snow-Tiles" type="Node3D" parent="."]
-visible = false
 
 [node name="Snow" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.926, 0)
