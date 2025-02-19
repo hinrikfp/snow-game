@@ -1,4 +1,5 @@
 extends StaticBody3D
+class_name Generator
 
 signal generator_started()
 signal generator_stopped()

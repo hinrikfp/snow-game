@@ -4,19 +4,19 @@ importer="scene"
 importer_version=1
 type="PackedScene"
 uid="uid://de6eqhvem7hi1"
-path="res://.godot/imported/radio-tower.glb-4c127dc3395b6626e6509740d321109a.scn"
+path="res://.godot/imported/radio-tower.glb-bcc6e2382218ff8fb4fad197c9a630d1.scn"
 
 [deps]
 
-source_file="res://assets/radio-tower.glb"
-dest_files=["res://.godot/imported/radio-tower.glb-4c127dc3395b6626e6509740d321109a.scn"]
+source_file="res://assets/models/radio-tower/radio-tower.glb"
+dest_files=["res://.godot/imported/radio-tower.glb-bcc6e2382218ff8fb4fad197c9a630d1.scn"]
 
 [params]
 
-nodes/root_type=""
-nodes/root_name=""
+nodes/root_type="StaticBody3D"
+nodes/root_name="RadioTower"
 nodes/apply_root_scale=true
-nodes/root_scale=1.0
+nodes/root_scale=0.05
 nodes/import_as_skeleton_bones=false
 meshes/ensure_tangents=true
 meshes/generate_lods=true
