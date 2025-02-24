@@ -1,4 +1,5 @@
 extends StaticBody3D
+class_name Fireplace
 
 @onready var fire_noise: AudioStreamPlayer3D = $FireNoise
 @onready var fire: Node3D = $Fire

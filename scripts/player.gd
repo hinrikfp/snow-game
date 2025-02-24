@@ -46,6 +46,8 @@ var speed: float = walk_speed;
 
 var is_in_warmth: bool = false;
 
+var warmth_last_tick: float = 0;
+
 enum PlayerMovement {
 	Idle,
 	Walking,
@@ -58,11 +60,14 @@ enum PlayerMovement {
 
 var player_movement := PlayerMovement.Idle;
 
+@export var fireplace: Fireplace;
+
 # callbacks
 
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
 	health = max_health
+	health -= 50
 	stamina = max_stamina
 	ui.set_health_label(health)
 	
@@ -100,6 +105,13 @@ func _physics_process(delta: float) -> void: #{
 		ui.set_interactable_label(focus.result)
 	else:
 		ui.set_interactable_label("")
+
+	if Time.get_ticks_msec() - warmth_last_tick >= 2000.0 && is_in_warmth:
+		if fireplace.fire_lit:
+			change_health(+5)
+		else:
+			change_health(+1)
+		warmth_last_tick = Time.get_ticks_msec()
 #}
 
 # signals
@@ -107,10 +119,13 @@ func _physics_process(delta: float) -> void: #{
 func _on_cabin_warmth_body_entered(body: Node3D) -> void:
 	if body == self:
 		is_in_warmth = true
+		warmth_last_tick = Time.get_ticks_msec()
 
 func _on_cabin_warmth_body_exited(body: Node3D) -> void:
 	if body == self:
 		is_in_warmth = false
+		warmth_last_tick = 0.0
+
 func _on_tree_got_wood(amount: int) -> void:
 	inventory["wood"] += 1
 	print(inventory["wood"])
@@ -230,5 +245,5 @@ func get_inventory() -> Dictionary:
 
 
 func change_health(amount: int) -> void:
-	self.health += amount
-	ui.set_health_label(health)
+	self.health = clamp(self.health + amount, 0, max_health)
+	ui.set_health_label(self.health)
