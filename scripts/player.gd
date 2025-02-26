@@ -70,6 +70,7 @@ func _ready() -> void:
 	health -= 50
 	stamina = max_stamina
 	ui.set_health_label(health)
+	ui.set_stamina_label(stamina)
 	
 
 func _input(event: InputEvent) -> void: #{
@@ -174,10 +175,12 @@ func process_climbing(delta: float) -> void: #{
 	var direction := (Vector3(input_dir.x, input_dir.y, 0)).normalized()
 	if direction:
 		velocity = (get_surface_rotation() * direction) * speed
+		self.change_stamina(-delta * 1.5)
 	else:
 		velocity.x = move_toward(velocity.x, 0, speed)
 		velocity.z = move_toward(velocity.z, 0, speed)
 		velocity.y = move_toward(velocity.y, 0, speed)
+		self.change_stamina(+delta * 0.5)
 	var to_wall := -get_surface_rotation().basis.z
 	to_wall.y = 0
 	velocity += to_wall * 5
@@ -201,9 +204,11 @@ func process_movement(delta: float) -> void: #{
 		camera.fov = base_fov + run_fov_change
 		if is_on_floor():
 			player_movement = PlayerMovement.Running
+			self.change_stamina(-delta * 1.0)
 	else:
 		speed = walk_speed
 		camera.fov = base_fov
+		self.change_stamina(+delta * 2.0)
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -247,3 +252,7 @@ func get_inventory() -> Dictionary:
 func change_health(amount: int) -> void:
 	self.health = clamp(self.health + amount, 0, max_health)
 	ui.set_health_label(self.health)
+
+func change_stamina(amount: float) -> void:
+	self.stamina = clamp(self.stamina + amount, 0, max_stamina)
+	ui.set_stamina_label(self.stamina)

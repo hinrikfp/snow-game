@@ -1,6 +1,37 @@
-[gd_scene load_steps=2 format=3 uid="uid://ciuxq2lyx12oy"]
+[gd_scene load_steps=5 format=3 uid="uid://ciuxq2lyx12oy"]
 
 [ext_resource type="Script" path="res://scripts/ui.gd" id="1_o8y32"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6o4kt"]
+bg_color = Color(0.0985038, 0.209642, 0.214278, 0.396078)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3tu7y"]
+bg_color = Color(0.720573, 0.0396868, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.675117, 0.837525, 0.836635, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rax1c"]
+bg_color = Color(0.953872, 0.798658, 0.510626, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.675117, 0.837525, 0.836635, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
 
 [node name="UI" type="Control"]
 layout_mode = 3
@@ -12,6 +43,7 @@ grow_vertical = 2
 script = ExtResource("1_o8y32")
 
 [node name="HealthLabel" type="RichTextLabel" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -36,3 +68,55 @@ offset_right = 138.0
 offset_bottom = 70.5
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="StaminaLabel" type="RichTextLabel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -85.0
+offset_right = 136.0
+offset_bottom = -45.0
+grow_vertical = 0
+text = "Stamina:"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 91.0
+offset_right = 180.0
+offset_bottom = 131.0
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -61.0
+offset_right = 275.0
+offset_bottom = -39.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_6o4kt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3tu7y")
+value = 70.0
+rounded = true
+show_percentage = false
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 9.0
+offset_top = -31.0
+offset_right = 372.0
+offset_bottom = -12.0
+grow_vertical = 0
+theme_override_styles/background = SubResource("StyleBoxFlat_6o4kt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rax1c")
+value = 70.0
+rounded = true
+show_percentage = false
