@@ -1,4 +1,7 @@
 extends Node
+class_name GameManager
+
+signal game_won()
 
 @onready var directional_light_3d: DirectionalLight3D = $DirectionalLight3D
 @onready var world_environment: WorldEnvironment = $WorldEnvironment
@@ -36,13 +39,13 @@ func _process(delta: float) -> void:
 		if ref_sky_material.sky_cover == KLOPPENHEIM_07_PURESKY_4K:
 			ref_sky_material.sky_cover = NIGHT_SKY_HDRI_002_2K_TONEMAPPED
 		ref_sky_material.sky_cover_modulate.a = clamp(pow(abs(energy_neg), 0.5), 0.0, 1.0)
-		print(energy)
 	else:
-		directional_light_3d.light_energy = clamp(energy_pos + 0.2, 0.0, 0.9)
+		directional_light_3d.light_energy = clamp(energy_pos + 0.2, 0.5, 0.9)
 		if ref_sky_material.sky_cover == NIGHT_SKY_HDRI_002_2K_TONEMAPPED:
 			ref_sky_material.sky_cover = KLOPPENHEIM_07_PURESKY_4K
 		world_environment.environment.sky.sky_material.sky_cover_modulate.a = energy_pos
 	world_environment.environment.sky.sky_material.energy_multiplier = clamp(energy_pos, 0.3, 1.0)
-	
-	
-	
+
+
+func finish_game() -> void:
+	emit_signal("game_won")

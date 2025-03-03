@@ -40,13 +40,15 @@ var stamina: float;
 @export var inventory: Dictionary = {
 	"wood": 0,
 	"parts": 0,
+	"axe": 0,
 };
 
 var speed: float = walk_speed;
 
 var is_in_warmth: bool = false;
 
-var warmth_last_tick: float = 0;
+var warmth_last_tick: float = 0.0;
+var cold_last_tick: float = 0.0;
 
 enum PlayerMovement {
 	Idle,
@@ -71,6 +73,7 @@ func _ready() -> void:
 	stamina = max_stamina
 	ui.set_health_label(health)
 	ui.set_stamina_label(stamina)
+	cold_last_tick = Time.get_ticks_msec()
 	
 
 func _input(event: InputEvent) -> void: #{
@@ -113,6 +116,13 @@ func _physics_process(delta: float) -> void: #{
 		else:
 			change_health(+1)
 		warmth_last_tick = Time.get_ticks_msec()
+	
+	if Time.get_ticks_msec() - cold_last_tick >= 4000.0:
+		if !is_in_warmth:
+			change_health(-2)
+			cold_last_tick = Time.get_ticks_msec()
+		else:
+			cold_last_tick = 0.0;
 #}
 
 # signals
@@ -131,7 +141,7 @@ func _on_tree_got_wood(amount: int) -> void:
 	inventory["wood"] += 1
 	print(inventory["wood"])
 	
-func _on_plane_got_parts() -> void:
+func _on_plane_wreck_got_parts() -> void:
 	inventory["parts"] += 1
 
 # functions
@@ -187,6 +197,9 @@ func process_climbing(delta: float) -> void: #{
 	move_and_slide()
 #}
 
+func can_run() -> bool:
+	return (stamina) > 0.0
+
 func process_movement(delta: float) -> void: #{
 	# Add the gravity.
 	if not is_on_floor() && player_movement != PlayerMovement.Climbing:
@@ -198,13 +211,16 @@ func process_movement(delta: float) -> void: #{
 	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
 		velocity.y = jump_velocity
 		player_movement = PlayerMovement.Jumping
-	
-	if Input.is_action_pressed("run"):
+		
+	if Input.is_action_pressed("run") && can_run():
 		speed = run_speed
 		camera.fov = base_fov + run_fov_change
 		if is_on_floor():
 			player_movement = PlayerMovement.Running
 			self.change_stamina(-delta * 1.0)
+	elif Input.is_action_pressed("run") && !can_run():
+		speed = walk_speed
+		camera.fov = base_fov
 	else:
 		speed = walk_speed
 		camera.fov = base_fov

@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=3 uid="uid://d0mgbjylkqrfm"]
+[gd_scene load_steps=26 format=3 uid="uid://d0mgbjylkqrfm"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_5dr4v"]
 [ext_resource type="Terrain3DMaterial" uid="uid://cbf5087uqjivh" path="res://terrain-data/material.tres" id="1_8jtcr"]
 [ext_resource type="Terrain3DAssets" uid="uid://br4kd5uvr4ajw" path="res://terrain-data/assets.tres" id="2_8h8r5"]
+[ext_resource type="Script" path="res://scripts/color_rect.gd" id="2_eul33"]
 [ext_resource type="PackedScene" uid="uid://c1t4wwt4vmksg" path="res://scenes/player.tscn" id="3_331dj"]
 [ext_resource type="PackedScene" uid="uid://ciuxq2lyx12oy" path="res://assets/ui.tscn" id="4_6brsu"]
 [ext_resource type="PackedScene" uid="uid://b8mdvv5hfupju" path="res://assets/ground-snow.tscn" id="4_gyk4j"]
@@ -13,10 +14,12 @@
 [ext_resource type="PackedScene" uid="uid://cbenia4obvmag" path="res://assets/generator.tscn" id="11_s35qd"]
 [ext_resource type="Script" path="res://scenes/warmth.gd" id="11_ukrv6"]
 [ext_resource type="PackedScene" uid="uid://wn3fhw66a5xm" path="res://assets/cabin.tscn" id="13_74600"]
-[ext_resource type="PackedScene" uid="uid://cpw6hdvv0th87" path="res://assets/plane.tscn" id="13_j1mqs"]
 [ext_resource type="PackedScene" uid="uid://beytbctu4kyh1" path="res://assets/table.tscn" id="14_nbkh8"]
 [ext_resource type="PackedScene" uid="uid://cmkud4v6q2d5h" path="res://assets/radio.tscn" id="15_at7hs"]
 [ext_resource type="PackedScene" uid="uid://8eiif1vdaqyl" path="res://assets/radio_tower.tscn" id="16_u1lhn"]
+[ext_resource type="PackedScene" uid="uid://b0wg7btfbhc6d" path="res://assets/axe.tscn" id="18_2gyhp"]
+[ext_resource type="PackedScene" uid="uid://dgwsrgo6lusm2" path="res://assets/plane_wreck.tscn" id="18_61ia8"]
+[ext_resource type="AudioStream" uid="uid://uyetk0e253yh" path="res://assets/audio/mikhalin1992__planecrash.ogg" id="19_1dvin"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mqc2w"]
 sky_energy_multiplier = 1.2
@@ -36,8 +39,9 @@ ambient_light_color = Color(1, 1, 1, 1)
 reflected_light_source = 2
 tonemap_mode = 2
 glow_enabled = true
+fog_enabled = true
 fog_sun_scatter = 0.1
-fog_density = 0.02
+fog_density = 0.001
 volumetric_fog_density = 0.03
 volumetric_fog_emission = Color(0.255659, 0.255659, 0.255659, 1)
 
@@ -49,6 +53,14 @@ size = Vector3(6.98975, 4.34863, 6.81238)
 [node name="Game" type="Node3D"]
 script = ExtResource("1_5dr4v")
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_right = 6477.0
+offset_bottom = 3317.0
+color = Color(0, 0, 0, 1)
+script = ExtResource("2_eul33")
+
 [node name="UI" parent="." instance=ExtResource("4_6brsu")]
 
 [node name="Terrain3D" type="Terrain3D" parent="."]
@@ -59,8 +71,9 @@ top_level = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("fireplace") instance=ExtResource("3_331dj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 136.672, 147.077, -3.79751)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 336.282, 89.0884, 136.259)
 inventory = {
+"axe": 0,
 "parts": 2,
 "wood": 1
 }
@@ -78,7 +91,6 @@ environment = SubResource("Environment_ci7fr")
 camera_attributes = SubResource("CameraAttributesPractical_0848m")
 
 [node name="Snow-Tiles" type="Node3D" parent="."]
-visible = false
 
 [node name="Snow" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 197.926, 0)
@@ -116,6 +128,186 @@ skeleton = NodePath("../..")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 161.366, -100)
 skeleton = NodePath("../..")
 
+[node name="Snow10" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 159.808, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow11" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 128.795, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow12" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 171.179, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow13" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 111.936, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow14" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 163.21, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow15" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 202.388, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow16" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 156.06, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow17" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 122.886, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow18" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 188.432, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow19" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 141.609, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow20" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 178.192, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow21" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 178.192, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow22" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 178.192, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow23" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -100, 178.192, -399.164)
+skeleton = NodePath("../..")
+
+[node name="Snow24" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 116.405, -399.164)
+skeleton = NodePath("../..")
+
+[node name="Snow25" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 97.4795, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow26" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 119.556, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow27" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 100, 119.556, -399.164)
+skeleton = NodePath("../..")
+
+[node name="Snow28" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 97.926, 0)
+skeleton = NodePath("../..")
+
+[node name="Snow29" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 120.002, 100)
+skeleton = NodePath("../..")
+
+[node name="Snow30" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 120.002, 0)
+skeleton = NodePath("../..")
+
+[node name="Snow31" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 120.002, 100)
+skeleton = NodePath("../..")
+
+[node name="Snow32" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 120.002, -100)
+skeleton = NodePath("../..")
+
+[node name="Snow33" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 58.215, -100)
+skeleton = NodePath("../..")
+
+[node name="Snow34" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 39.29, 0)
+skeleton = NodePath("../..")
+
+[node name="Snow35" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 61.366, 100)
+skeleton = NodePath("../..")
+
+[node name="Snow36" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 61.366, -100)
+skeleton = NodePath("../..")
+
+[node name="Snow37" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 59.8082, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow38" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 28.7948, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow39" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 71.1793, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow40" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 11.9362, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow41" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 63.2104, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow42" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 102.388, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow43" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 56.0602, 299.245)
+skeleton = NodePath("../..")
+
+[node name="Snow44" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 22.8862, 399.245)
+skeleton = NodePath("../..")
+
+[node name="Snow45" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 88.4317, 199.245)
+skeleton = NodePath("../..")
+
+[node name="Snow46" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 41.6091, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow47" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 78.1915, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow48" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 78.1915, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow49" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 78.1915, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow50" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 199.617, 78.1915, -399.164)
+skeleton = NodePath("../..")
+
+[node name="Snow51" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 299.617, 16.4045, -399.164)
+skeleton = NodePath("../..")
+
+[node name="Snow52" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, -2.52048, -299.164)
+skeleton = NodePath("../..")
+
+[node name="Snow53" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 19.5555, -199.164)
+skeleton = NodePath("../..")
+
+[node name="Snow54" parent="Snow-Tiles" instance=ExtResource("4_gyk4j")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 399.617, 19.5555, -399.164)
+skeleton = NodePath("../..")
+
 [node name="fps" type="Label" parent="."]
 offset_right = 40.0
 offset_bottom = 23.0
@@ -142,10 +334,11 @@ transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 
 [node name="Table" parent="cabin" instance=ExtResource("14_nbkh8")]
 transform = Transform3D(-1.25, 0, 1.09278e-07, 0, 1.25, 0, -1.09278e-07, 0, -1.25, 2.35751, 0.139999, 2.67466)
 
-[node name="Radio" parent="cabin/Table" node_paths=PackedStringArray("generator", "tower") instance=ExtResource("15_at7hs")]
+[node name="Radio" parent="cabin/Table" node_paths=PackedStringArray("generator", "tower", "game_manager") instance=ExtResource("15_at7hs")]
 transform = Transform3D(-0.75, 0.0101572, 1.299, 0, 1.49995, -0.0117285, -1.29904, -0.00586425, -0.749977, -0.475998, 1.19, -0.13684)
 generator = NodePath("../../Generator")
 tower = NodePath("../../../RadioTower")
+game_manager = NodePath("../../..")
 
 [node name="Tree" parent="." instance=ExtResource("11_lxrl5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -112, 125.195, 392)
@@ -156,15 +349,24 @@ transform = Transform3D(-0.849672, 0, -0.527312, 0, 1, 0, 0.527312, 0, -0.849672
 [node name="Tree3" parent="." instance=ExtResource("11_lxrl5")]
 transform = Transform3D(-0.140055, 0, 0.990144, 0, 1, 0, -0.990144, 0, -0.140055, -121.758, 129.816, 371.029)
 
-[node name="Plane" parent="." instance=ExtResource("13_j1mqs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 307, 94, 159)
-
 [node name="RadioTower" parent="." instance=ExtResource("16_u1lhn")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -88.5103, 209.893, 261.709)
 
+[node name="PlaneWreck" parent="." instance=ExtResource("18_61ia8")]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 348.013, 85.9044, 148.362)
+
+[node name="Axe" parent="." instance=ExtResource("18_2gyhp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 128.14, 146.834, -1.98255)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("19_1dvin")
+attenuation_model = 3
+autoplay = true
+
+[connection signal="game_won" from="." to="CanvasLayer/ColorRect" method="_on_game_game_won"]
 [connection signal="body_entered" from="cabin/CabinWarmth" to="Player" method="_on_cabin_warmth_body_entered"]
 [connection signal="body_exited" from="cabin/CabinWarmth" to="Player" method="_on_cabin_warmth_body_exited"]
 [connection signal="got_wood" from="Tree" to="Player" method="_on_tree_got_wood"]
 [connection signal="got_wood" from="Tree2" to="Player" method="_on_tree_got_wood"]
 [connection signal="got_wood" from="Tree3" to="Player" method="_on_tree_got_wood"]
-[connection signal="got_parts" from="Plane" to="Player" method="_on_plane_got_parts"]
+[connection signal="got_parts" from="PlaneWreck" to="Player" method="_on_plane_wreck_got_parts"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://b8mdvv5hfupju"]
 
 [ext_resource type="Shader" path="res://shaders/ground-snow.gdshader" id="1_ort6q"]
-[ext_resource type="Texture2D" uid="uid://b842q2lxnjq4e" path="res://height-map.exr" id="2_srupa"]
+[ext_resource type="Texture2D" uid="uid://cwycl6h2ocutt" path="res://height-map.exr" id="2_srupa"]
 [ext_resource type="Texture2D" uid="uid://yk7eayycquoy" path="res://path_map.exr" id="3_aju1o"]
 [ext_resource type="Texture2D" uid="uid://y8g7yq5i48el" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Color.png" id="4_13bi8"]
 [ext_resource type="Texture2D" uid="uid://ddmke4aj32tv1" path="res://assets/textures/Snow002_4K-PNG/Snow002_4K-PNG_Displacement.png" id="5_a7byp"]
@@ -35,7 +35,7 @@ shader_parameter/uv1_scale = Vector3(0.5, 0.5, 1)
 shader_parameter/uv1_offset = null
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = null
-shader_parameter/folding_distance = 145.0
+shader_parameter/folding_distance = 445.0
 shader_parameter/height_map = ExtResource("2_srupa")
 shader_parameter/path_map = ExtResource("3_aju1o")
 shader_parameter/texture_albedo = ExtResource("4_13bi8")

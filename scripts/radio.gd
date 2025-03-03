@@ -2,13 +2,14 @@ extends StaticBody3D
 
 @export var generator: Generator;
 @export var tower: RadioTower;
+@export var game_manager: GameManager;
 
 var focus_message: String = "try to turn on radio"
 
 func interact(player: Player) -> void:
 	if generator.generator_state == Generator.GeneratorState.Running:
 		if tower.tower_fixed:
-			print("radio used")
+			game_manager.finish_game()
 		else:
 			focus_message = "fix radio tower to use radio"
 	else:
