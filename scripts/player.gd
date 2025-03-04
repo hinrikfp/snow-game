@@ -69,7 +69,7 @@ var player_movement := PlayerMovement.Idle;
 func _ready() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED;
 	health = max_health
-	health -= 50
+	health -= 30
 	stamina = max_stamina
 	ui.set_health_label(health)
 	ui.set_stamina_label(stamina)
@@ -117,9 +117,9 @@ func _physics_process(delta: float) -> void: #{
 			change_health(+1)
 		warmth_last_tick = Time.get_ticks_msec()
 	
-	if Time.get_ticks_msec() - cold_last_tick >= 4000.0:
+	if Time.get_ticks_msec() - cold_last_tick >= 6000.0:
 		if !is_in_warmth:
-			change_health(-2)
+			change_health(-1)
 			cold_last_tick = Time.get_ticks_msec()
 		else:
 			cold_last_tick = 0.0;

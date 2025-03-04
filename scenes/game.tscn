@@ -71,12 +71,7 @@ top_level = true
 metadata/_edit_lock_ = true
 
 [node name="Player" parent="." node_paths=PackedStringArray("fireplace") instance=ExtResource("3_331dj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 336.282, 89.0884, 136.259)
-inventory = {
-"axe": 0,
-"parts": 2,
-"wood": 1
-}
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 342.045, 89.0884, 156.352)
 fireplace = NodePath("../cabin/Fireplace")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]

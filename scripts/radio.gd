@@ -10,6 +10,7 @@ func interact(player: Player) -> void:
 	if generator.generator_state == Generator.GeneratorState.Running:
 		if tower.tower_fixed:
 			game_manager.finish_game()
+			focus_message = "radio used, help is coming."
 		else:
 			focus_message = "fix radio tower to use radio"
 	else:
